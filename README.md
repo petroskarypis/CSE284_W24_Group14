@@ -15,13 +15,13 @@ We are primarily comparing the runtime and accuracy of the imputation methods. A
 
 ## Relevant Benchmarking Scripts:
 
-The relevant code for benchmarking the speed of Beagle can be found [here](beagle/). 
+The relevant code for benchmarking the speed of Beagle can be found [impute.sh](impute.sh). 
 
 ## Results so far:
 
-Got the beagle result
+Got the beagle result.
 Converted the unphased sample to plink and oxford IMPUTE format 
 
 ## Remaining work:
 
-The major remaining work for the last week is coming up with a meaningful metric for quality for the imputations. 
+The major remaining work for the last week is 1) coming up with a meaningful metric for quality for the imputations and 2) finish the IMPUTE2 results.
