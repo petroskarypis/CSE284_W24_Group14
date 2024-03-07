@@ -122,6 +122,10 @@ sub InitializeGtypeProbsLookupTable() {
 
   $special_gt_to_probs{'.'} = '1 0 0';
   $special_gt_to_probs{'./.'} = '1 0 0';
+  
+  # Gongyi Added for M CHROM: 
+  $phased_gt_to_probs{'1'} = '0 0 1';
+  $phased_gt_to_probs{'0'} = '1 0 0';
 }
 
 
