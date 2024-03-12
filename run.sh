@@ -50,25 +50,5 @@ done
 zcat data/imputed_23andme_merged.vcf.gz | grep -v "^#" | cut -f 3 | sort | uniq -c | \
    awk '{print $1 "\t" $2}' | awk '($1>1)' | grep -v "\." | cut -f 2 > dupids_23andme.txt
 
-mkdir impute
-# TODO: Prepare the gens file and mimic the following
-./impute2 \
- -prephase_g \
- -m ../data/genetic_map_chr1_combined_b37.txt \
- -g ../data/mgymrek_genome_fixcase.gen \
- -int 20.4e6 20.5e6 \
- -Ne 20000 \
- -o ./impute2/mgymrek_genome_prephased.impute2
-
- ./impute2 \
- -use_prephased_g \
- -m ./Example/example.chr22.map \
- -h ./Example/example.chr22.1kG.haps \
- -l ./Example/example.chr22.1kG.legend \
- -known_haps_g ./Example/example.chr22.prephasing.impute2_haps \
- -strand_g ./Example/example.chr22.study.strand \
- -int 20.4e6 20.5e6 \
- -Ne 20000 \
- -o ./Example/example.chr22.one.phased.impute2
- -phase
+mkdir impute2
 
