@@ -7,8 +7,10 @@ TARGETVCF=~/public/misc/mgymrek_genome.vcf.gz
 prefix=$(basename $TARGETVCF .vcf.gz)
 data_filepath=./data/$prefix
 
-# Download beagle
+# Download beagle and impute2
 # wget https://faculty.washington.edu/browning/beagle/beagle.19Apr22.7c0.jar
+# wget https://mathgen.stats.ox.ac.uk/impute/impute_v2.3.2_x86_64_static.tgz
+# tar -zxvf impute_v2.3.2_x86_64_static.tgz
 
 # Fix 23andme VCF
 zcat ${TARGETVCF} | \
@@ -50,13 +52,23 @@ zcat data/imputed_23andme_merged.vcf.gz | grep -v "^#" | cut -f 3 | sort | uniq 
 
 mkdir impute
 # TODO: Prepare the gens file and mimic the following
-# ./impute2 \
-#  -m ./Example/example.chr22.map \
-#  -g_ref ./Example/example.chr22.reference.gens \
-#  -strand_g_ref ./Example/example.chr22.reference.strand \
-#  -g ./Example/example.chr22.study.gens \
-#  -strand_g ./Example/example.chr22.study.strand \
-#  -int 20.4e6 20.5e6 \
-#  -Ne 20000 \
-#  -o ./Example/example.chr22.one.unphased.impute2
+./impute2 \
+ -prephase_g \
+ -m ../data/genetic_map_chr1_combined_b37.txt \
+ -g ../data/mgymrek_genome_fixcase.gen \
+ -int 20.4e6 20.5e6 \
+ -Ne 20000 \
+ -o ./impute2/mgymrek_genome_prephased.impute2
+
+ ./impute2 \
+ -use_prephased_g \
+ -m ./Example/example.chr22.map \
+ -h ./Example/example.chr22.1kG.haps \
+ -l ./Example/example.chr22.1kG.legend \
+ -known_haps_g ./Example/example.chr22.prephasing.impute2_haps \
+ -strand_g ./Example/example.chr22.study.strand \
+ -int 20.4e6 20.5e6 \
+ -Ne 20000 \
+ -o ./Example/example.chr22.one.phased.impute2
+ -phase
 
