@@ -35,20 +35,11 @@ echo "17:1144632" >> excludemarkers.txt
 KGDIR=~/public/1000Genomes/
 
 # # Run beagle
-mkdir beagle
-for chrom in $(seq 1 1)
-do
-    echo "Imputing chr${chrom} using Beagle"
-    java -jar beagle.19Apr22.7c0.jar chrom=$chrom \
-        gt=${data_filepath}_fixcase.vcf.gz \
-        ref=${KGDIR}/ALL.chr${chrom}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz \
-        excludemarkers=excludemarkers.txt \
-        out=./beagle/${prefix}_imputed_chr${chrom}
-done
-
-# Remove duplicates
-zcat data/imputed_23andme_merged.vcf.gz | grep -v "^#" | cut -f 3 | sort | uniq -c | \
-   awk '{print $1 "\t" $2}' | awk '($1>1)' | grep -v "\." | cut -f 2 > dupids_23andme.txt
-
-mkdir impute2
-
+mkdir -p beagle
+echo "Imputing chr${chrom} using Beagle"
+time java -jar beagle.19Apr22.7c0.jar \
+    chrom=1:1-5000000 \
+    gt=${data_filepath}_fixcase.vcf.gz \
+    ref=${KGDIR}/ALL.chr1.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz \
+    excludemarkers=excludemarkers.txt \
+    out=./beagle/${prefix}_imputed_chr1
